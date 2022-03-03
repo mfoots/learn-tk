@@ -22,6 +22,7 @@ frame1.grid(
 label = ttk.Label(frame1, text="Choose a Color")
 label.grid(
     row=0,
+    column=0,
     columnspan=3,
     pady=5,
 )
@@ -74,14 +75,15 @@ button1.configure(
 )
 button1.grid(
     row=3,
+    column=0,
     columnspan=3,
     sticky=W+E,
 )
 
+# Part 2
+
 size = IntVar()
-size.set(12)
 typeface = IntVar()
-typeface.set(0)
 
 
 frame2 = ttk.Frame(window)
@@ -97,13 +99,14 @@ frame2.grid(
 label2 = ttk.Label(frame2, text="Other Choices")
 label2.grid(
     row=0,
+    column=0,
     columnspan=2,
     pady=5,
 )
 
 box1 = Checkbutton(frame2)
 box1.configure(
-    text="Large",
+    text="Large Font",
     font=("arial", 12),
     variable=size,
     onvalue=22,
@@ -116,7 +119,7 @@ box1.grid(
 )
 box2 = Checkbutton(frame2)
 box2.configure(
-    text="Monospace",
+    text="Monospace Font",
     font=("arial", 12),
     variable=typeface,
     onvalue=1,
@@ -144,6 +147,7 @@ button2.configure(
 )
 button2.grid(
     row=3,
+    column=0,
     columnspan=2,
     sticky=W+E,
 )
