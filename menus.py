@@ -5,7 +5,7 @@ import os
 
 # Globals
 
-filename = None
+filepath = None
 
 window = Tk()
 # window.geometry("600x400")
@@ -27,29 +27,41 @@ menubar.add_cascade(menu=menu_help, label="Help")
 # File Menu Functions
 
 def update_title():
-    name = filename.split('/')[-1]
-    window.title(name)
+    filename = filepath.split('/')[-1]
+    window.title(filename)
 
 def new_file():
+    global filepath
     content.delete('1.0', 'end')
+    filepath = None
     window.title('Untitled.txt')
 
 def open_file():
-    global filename
-    filename = filedialog.askopenfilename(initialdir=os.getcwd())
-    with open(filename) as file:
-        content.insert('1.0', file.read())
-    # window.title(filename)
-    update_title()
+    global filepath
+    filepath = filedialog.askopenfilename(
+        initialdir=os.getcwd(),
+        filetypes=(('Text files', '*.txt'),)
+    )
+    try:
+        with open(filepath) as file:
+            content.insert('1.0', file.read())
+        update_title()
+    except:
+        pass
 
 def save_file():
-    global filename
-    if filename == None:
-        filename = filedialog.asksaveasfilename(initialdir=os.getcwd())
-    with open(filename, 'w') as file:
-        file.write(content.get('1.0', 'end'))
-    # window.title(filename)
-    update_title()
+    global filepath
+    if filepath == None:
+        filepath = filedialog.asksaveasfilename(
+            initialdir=os.getcwd(),
+            filetypes=(('Text files', '*.txt'),)
+        )
+    try:
+        with open(filepath, 'w') as file:
+            file.write(content.get('1.0', 'end'))
+        update_title()
+    except:
+        pass
 
 
 # File Menu Commands
@@ -77,16 +89,19 @@ menu_help.add_command(label="About This App", command=show_about)
 
 # Text Widget Code
 
-content = Text(window, width=60, height=20)
+content = Text(window, width=60, height=15)
 content.configure(
     font=('monospace', 10),
 )
 content.grid(row=0, column=0, sticky=N+S+E+W)
 content.focus_set()
 
+
 scroll = ttk.Scrollbar(window, orient=VERTICAL, command=content.yview)
 scroll.grid(row=0, column=1, sticky=N+S)
 
 content['yscrollcommand'] = scroll.set
+
+
 
 mainloop()
